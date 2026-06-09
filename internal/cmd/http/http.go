@@ -12,5 +12,6 @@ var (
 )
 
 func init() {
-	HttpCmd.AddCommand(HttpClientCmd)
+	HttpCmd.AddCommand(ClientCmd)
+	HttpCmd.AddCommand(PerfCmd)
 }
