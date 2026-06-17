@@ -16,11 +16,12 @@ func NewRunner() *Runner {
 }
 
 func (r *Runner) Run(ctx context.Context, modules ...Module) error {
-	for _, module := range modules {
+	r.modules = append([]Module{}, modules...)
+
+	for _, module := range r.modules {
 		if err := module.Init(r); err != nil {
 			return err
 		}
-		r.modules = append(r.modules, module)
 	}
 
 	stager := stager.New()
@@ -37,16 +38,18 @@ func (r *Runner) Run(ctx context.Context, modules ...Module) error {
 }
 
 func GetModule[T any](r *Runner) (T, error) {
+
 	for _, model := range r.modules {
 		if m, ok := model.(T); ok {
 			return m, nil
 		}
 	}
 	var m T
-	return m, nil
+	return m, fmt.Errorf("module not found")
 }
 
 func RunWithModule[T any](r *Runner, f func(m T) error) error {
+
 	for _, model := range r.modules {
 		if m, ok := model.(T); ok {
 			return f(m)

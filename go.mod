@@ -1,6 +1,6 @@
 module github.com/xucx/gox
 
-go 1.25.9
+go 1.26.3
 
 require (
 	github.com/ash2k/stager v0.5.1
